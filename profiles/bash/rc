@@ -1,0 +1,18 @@
+if [ -z "$HYPRISH_HOME" ]; then
+    DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/hyprish"
+
+    if [ "$OS" = "Windows_NT" ]; then
+        CONFIG_HOME="$(realpath "$LOCALAPPDATA/hyprish")"
+    fi
+
+    export HYPRISH_HOME="${HYPRISH_HOME:-${DATA_HOME}}"
+fi
+
+source "$HYPRISH_HOME/profiles/bash/envs"
+source "$HYPRISH_HOME/profiles/bash/aliases"
+source "$HYPRISH_HOME/profiles/bash/functions"
+source "$HYPRISH_HOME/profiles/bash/prompt"
+source "$HYPRISH_HOME/profiles/bash/init"
+source "$HYPRISH_HOME/profiles/bash/shell"
+
+[[ $- == *i* ]] && bind -f "$HYPRISH_HOME/profiles/bash/inputrc"

@@ -1,0 +1,30 @@
+# History control
+shopt -s histappend
+HISTCONTROL=ignoreboth
+HISTSIZE=32768
+HISTFILESIZE="${HISTSIZE}"
+
+# Autocompletion
+if [[ ! -v BASH_COMPLETION_VERSINFO && -f /usr/share/bash-completion/bash_completion ]]; then
+  source /usr/share/bash-completion/bash_completion
+fi
+
+if [[ -f "$XDG_CONFIG_HOME/bash/completion" ]]; then
+  source "$XDG_CONFIG_HOME/bash/completion"
+fi
+
+if [[ -f "$HOME/.bash_completion" ]]; then
+  source "$HOME/.bash_completion"
+fi
+
+if [[ -f "$XDG_CONFIG_HOME/bash/aliases" ]]; then
+  source "$XDG_CONFIG_HOME/bash/aliases"
+fi
+
+if [[ -f "$HOME/.bash_aliases" ]]; then
+  source "$HOME/.bash_aliases"
+fi
+
+# Set complete path
+export PATH="./bin:$HOME/.local/bin:$PATH"
+set +h

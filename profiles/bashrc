@@ -1,0 +1,10 @@
+
+if [ -z "$HYPRISH_HOME" ]; then
+  if [ "$OS" = "Windows_NT" ]; then
+    export HYPRISH_HOME="$LOCALAPPDATA\hyprish"
+  else
+    export HYPRISH_HOME="$HOME/.local/share/hyprish"
+  fi
+fi
+
+source "$HYPRISH_HOME/profiles/bash/rc"

@@ -1,0 +1,48 @@
+# Editor used by CLI
+
+
+if [ "$OS" == "Windows_NT" ]; then
+    export OSTYPE="windows"
+    export USER="$USERNAME"
+    export HOME="$USERPROFILE"
+    export HOSTNAME="$COMPUTERNAME"
+    export TMPDIR="$LOCALAPPDATA/Temp"
+    export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$APPDATA}"
+    export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$LOCALAPPDATA/Temp}"
+    export XDG_DATA_HOME="${XDG_DATA_HOME:-$LOCALAPPDATA}"
+    export XDG_STATE_HOME="${XDG_STATE_HOME:-$LOCALAPPDATA/State}"
+    export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-$LOCALAPPDATA/Runtime}"
+    export XDG_BIN_HOME="${XDG_BIN_HOME:-$LOCALAPPDATA/Programs/bin}"
+else 
+    export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+    export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+    export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+    export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+    export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+    export XDG_BIN_HOME="${XDG_BIN_HOME:-$HOME/.local/bin}"
+    export TMPDIR="/tmp"
+fi
+
+export DEV_HOME="${DEV_HOME:-$HOME/dev}"
+export DEV_REPOS="${DEV_REPOS:-$HOME/repos}"
+export DEV_CONFIG_HOME="${DEV_CONFIG_HOME:-$XDG_CONFIG_HOME/dev}"
+export DEV_CACHE_HOME="${DEV_CACHE_HOME:-$XDG_CACHE_HOME/dev}"
+export DEV_DATA_HOME="${DEV_DATA_HOME:-$XDG_DATA_HOME/dev}"
+export DEV_STATE_HOME="${DEV_STATE_HOME:-$XDG_STATE_HOME/dev}"
+export DEV_RUNTIME_DIR="${DEV_RUNTIME_DIR:-$XDG_RUNTIME_DIR/dev}"
+export DEV_BIN_HOME="${DEV_BIN_HOME:-$XDG_BIN_HOME/dev}"
+
+export EDITOR="${EDITOR:-nvim}"
+export SUDO_EDITOR="${SUDO_EDITOR:-$EDITOR}"
+export BAT_THEME="${BAT_THEME:-ansi}"
+
+
+if [ -f "$XDG_CONFIG_HOME/bash/env" ]; then
+  source "$XDG_CONFIG_HOME/bash/env"
+fi
+
+export MISE_CONFIG_HOME="$DEV_CONFIG_HOME/mise"
+export MISE_CACHE_HOME="$DEV_CACHE_HOME/mise"
+export MISE_DATA_HOME="$DEV_DATA_HOME/mise"
+export MISE_STATE_HOME="$DEV_STATE_HOME/mise"
+export MISE_RUNTIME_DIR="$DEV_RUNTIME_DIR/mise"

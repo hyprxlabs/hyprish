@@ -1,0 +1,5 @@
+
+
+if [[ -f "$HOME/.config/bash/functions.sh" ]]; then
+  source "$HOME/.config/bash/functions.sh"
+fi

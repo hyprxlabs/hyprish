@@ -1,0 +1,140 @@
+# File system
+alias ls='eza -lh --group-directories-first --icons=auto'
+alias lsa='ls -a'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='lt -a'
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+
+
+CD_HOOKS=()
+
+add_cd_hook() {
+  CD_HOOKS+=("$1")
+}
+
+zd() {
+  if [ $# -eq 0 ]; then
+    builtin cd ~ && return
+  elif [ -d "$1" ]; then
+    builtin cd "$1"
+  else
+    z "$@" && printf " \U000F17A9 " && pwd || echo "Error: Directory not found"
+  fi
+    for hook in "${CD_HOOKS[@]}"; do
+        eval "$hook"
+    done
+}
+alias cd="zd"
+
+open_command() {
+   if [ "$OS" = "Windows_NT" ]; then
+       start $@
+   else 
+        if command -v xdg-open >/dev/null 2>&1; then
+            xdg-open "$@" >/dev/null 2>&1 &
+            return
+        elif command -v gnome-open >/dev/null 2>&1; then
+            gnome-open "$@" >/dev/null 2>&1 &
+            return
+        elif command -v open >/dev/null 2>&1; then
+            open "$@" >/dev/null 2>&1 &
+            return
+        else
+            echo "Error: Could not find a command to open files." >&2
+            return 1
+        fi
+   fi
+}
+
+alias open='open_command'
+
+
+
+# Directories
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# Tools
+
+alias d='docker'
+
+alias xt='xtask'
+alias xtr='xtask run'
+alias xtb='xtask exec'
+alias xtc='xtask ls'
+
+
+# terraform
+alias tf='terraform'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
+alias tfd='terraform destroy'
+alias tfs='terraform state'
+alias tfv='terraform validate'
+
+
+n() { if [ "$#" -eq 0 ]; then nvim .; else nvim "$@"; fi; }
+
+# Git
+alias g='git'
+alias gcm='git commit -m'
+alias gcam='git commit -a -m'
+alias gcad='git commit -a --amend'
+alias gst='git status'
+alias gl='git log --oneline --graph --decorate --all'
+alias gp='git push'
+alias gpl='git pull'
+alias ga='git add'
+alias gaa='git add .'
+
+# dotnet 
+alias nt='dotnet'
+alias ntb='dotnet build'
+alias ntr='dotnet run'
+alias ntt='dotnet test'
+alias ntp='dotnet publish'
+alias ntc='dotnet clean'
+alias nti='dotnet tool install'
+alias ntu='dotnet tool update'
+
+alias dn='deno'
+alias dnr='deno run'
+alias dnf='deno fmt'
+alias dnt='deno task'
+
+export HOSTFILE="/etc/hosts"
+if [ "$OS" = "Windows_NT" ]; then
+  alias ehosts="$EDITOR $HOSTFILE"
+else 
+  alias ehosts="sudo ${EDITOR:-nvim} $HOSTFILE"
+fi
+
+IS_ELEVATED=0
+_is_elevated() {
+    if [ "$OS" = "Windows_NT" ]; then
+        net session > /dev/null 2>&1
+        EC=$?
+        if [ $EC -eq 0 ]; then
+            echo "1"
+            return 0
+        else
+            echo "0"
+            return 1
+        fi
+    else 
+        if [ "$(id -u)" -eq 0 ]; then
+            echo "1"
+            return 0
+        else
+            echo "0"
+            return 1
+        fi
+    fi
+
+    return $IS_ELEVATED
+}
+
+alias is_admin="_is_elevated"
