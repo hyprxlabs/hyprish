@@ -39,3 +39,9 @@ $Env:BAT_THEME = if ($Env:BAT_THEME) { $Env:BAT_THEME } else { "ansi" }
 if (Test-Path "$Env:XDG_CONFIG_HOME/pwsh/envs.ps1") {
     . "$Env:XDG_CONFIG_HOME/pwsh/envs.ps1"
 }
+
+$Env:MISE_CONFIG_HOME = "$Env:DEV_CONFIG_HOME/mise"
+$Env:MISE_CACHE_HOME = "$Env:DEV_CACHE_HOME/mise"
+$Env:MISE_DATA_HOME = "$Env:DEV_DATA_HOME/mise"
+$Env:MISE_STATE_HOME = "$Env:DEV_STATE_HOME/mise"
+$Env:MISE_RUNTIME_DIR = "$Env:DEV_RUNTIME_DIR/mise"
